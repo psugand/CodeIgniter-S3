@@ -2,9 +2,69 @@ h1. Amazon S3 Library for CodeIgniter
 
 Easily integrate your CI applications to Amazon's Simple Storage Solution with this library.
 
-This library is a port of Donovan Schönknecht's S3 PHP Class.
+This library is (hardly) a port of "Donovan Schönknecht's S3 PHP Class":http://undesigned.org.za/2007/10/22/amazon-s3-php-class.
 
 h2. Setup
 
-# Open S3.php and edit lines 44 and 45 wit your access and secret keys correspondingly.
+# Open S3.php and edit lines 44 and 45 with your access and secret keys correspondingly.
 # Drop S3.php in your applications/library folder.
+
+h2. Class Methods
+
+For more detailed information about the required parameters and returns check the S3.php file.
+
+h3. Objects:
+* copyObject
+* deleteObject
+* getObject
+* getObjectInfo
+* inputFile 
+* inputResource
+* putObject
+* getAuthenticatedURL
+
+h3. Buckets:
+
+* listBuckets
+* getBucket
+* putBucket
+* deleteBucket
+* getBucketLocation
+* getBucketLogging
+* setBucketLogging
+* disableBucketLogging
+* getHttpUploadPostParams
+
+h3. Access Control Policies:
+
+* getAccessControlPolicy
+* setAccessControlPolicy
+
+h3. CloudFront:
+
+* listDistributions
+* createDistribution
+* getDistribution
+* updateDistribution
+* deleteDistribution
+
+h3. Legacy methods:
+
+* putObjectFile
+* putObjectString
+
+h2. Example Usage
+
+@// Load Library@
+@$this->load->library('s3');@
+
+@// Create a Bucket@
+@var_dump($this->s3->putBucket('My-Bucket', $this->s3->ACL_PUBLIC_READ));@
+
+@// List Buckets@
+@VAR_DUMP($this->s3->listBuckets());@
+
+h2. References
+
+* "Original documentation for this class":http://undesigned.org.za/2007/10/22/amazon-s3-php-class/documentation
+* "Amazon S3 Documentation":http://docs.amazonwebservices.com/AmazonS3/2006-03-01/
