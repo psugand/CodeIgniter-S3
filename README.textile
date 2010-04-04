@@ -1,0 +1,10 @@
+h1. Amazon S3 Library for CodeIgniter
+
+Easily integrate your CI applications to Amazon's Simple Storage Solution with this library.
+
+This library is a port of Donovan Schönknecht's S3 PHP Class.
+
+h2. Setup
+
+# Open S3.php and edit lines 44 and 45 wit your access and secret keys correspondingly.
+# Drop S3.php in your applications/library folder.
