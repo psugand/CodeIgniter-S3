@@ -6,8 +6,8 @@ This library is (hardly) a port of "Donovan Schönknecht's S3 PHP Class":http://
 
 h2. Setup
 
-# Open S3.php and edit lines 44 and 45 with your access and secret keys correspondingly.
-# Drop S3.php in your applications/library folder.
+# Edit config/s3.php with your appropriate settings
+# Copy config and library files to your CI installation
 
 h2. Class Methods
 
@@ -55,14 +55,14 @@ h3. Legacy methods:
 
 h2. Example Usage
 
-@// Load Library@
-@$this->load->library('s3');@
+// Load Library
+$this->load->library('s3');
 
-@// Create a Bucket@
-@var_dump($this->s3->putBucket('My-Bucket', $this->s3->ACL_PUBLIC_READ));@
+// Create a Bucket
+var_dump($this->s3->putBucket('My-Bucket', $this->s3->ACL_PUBLIC_READ));
 
-@// List Buckets@
-@VAR_DUMP($this->s3->listBuckets());@
+// List Buckets
+var_dump($this->s3->listBuckets());
 
 h2. References
 
