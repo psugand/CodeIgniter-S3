@@ -380,7 +380,7 @@ class S3 {
 			if (isset($requestHeaders['Content-Type']))
 				$input['type'] = & $requestHeaders['Content-Type'];
 			elseif (isset($input['file']))
-				$input['type'] = $this->__getMimeType($input['file']);
+				$input['type'] = self::__getMimeType($input['file']);
 			else
 				$input['type'] = 'application/octet-stream';
 		}
