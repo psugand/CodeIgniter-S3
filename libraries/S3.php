@@ -44,6 +44,7 @@ class S3 {
 	const ACL_AUTHENTICATED_READ = 'authenticated-read';
 
 	public static $use_ssl = false;
+	public static $verify_peer = true;
 
 	private static $__access_key = NULL; // AWS Access key
 	private static $__secret_key = NULL; // AWS Secret key
@@ -77,6 +78,7 @@ class S3 {
 		}
 
 		self::$use_ssl = $use_ssl;
+		self::$verify_peer = $verify_peer;
 	}
 
 	/**
@@ -1348,7 +1350,14 @@ final class S3Request {
 		if (S3::$use_ssl)
 		{
 			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
+			if (S3::$verify_peer)
+			{
+			    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
+			}
+			else
+			{
+			    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+			}
 		}
 
 		curl_setopt($curl, CURLOPT_URL, $url);
