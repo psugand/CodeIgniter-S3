@@ -247,7 +247,7 @@ class S3 {
 		{
 			$dom = new DOMDocument;
 			$createBucketConfiguration = $dom->createElement('CreateBucketConfiguration');
-			$locationConstraint = $dom->createElement('LocationConstraint', strtoupper($location));
+			$locationConstraint = $dom->createElement('LocationConstraint', strtolower($location));
 			$createBucketConfiguration->appendChild($locationConstraint);
 			$dom->appendChild($createBucketConfiguration);
 			$rest->data = $dom->saveXML();
