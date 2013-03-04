@@ -1349,7 +1349,7 @@ final class S3Request {
 
 		if (S3::$use_ssl)
 		{
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 			if (S3::$verify_peer)
 			{
 			    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
