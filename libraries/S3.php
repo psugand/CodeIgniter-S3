@@ -1441,12 +1441,16 @@ final class S3Request {
 
 		@curl_close($curl);
 
-		// Parse body into XML
-		if ($this->response->error === false && isset($this->response->headers['type']) &&
-				$this->response->headers['type'] == 'application/xml' && isset($this->response->body))
+		// Parse body
+		if ($this->response->error === false && isset($this->response->headers['type']) && isset($this->response->body))
 		{
-			$this->response->body = simplexml_load_string($this->response->body);
-
+			if($this->response->headers['type'] == 'application/json')
+			{
+				$this->response->body = json_decode($this->response->body);
+			}elseif($this->response->headers['type']== 'application/xml')
+			{
+				$this->response->body = simplexml_load_string($this->response->body);
+			}
 			// Grab S3 errors
 			if (!in_array($this->response->code, array(200, 204)) &&
 					isset($this->response->body->Code, $this->response->body->Message))
