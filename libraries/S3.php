@@ -43,6 +43,14 @@ class S3 {
 	const ACL_PUBLIC_READ_WRITE = 'public-read-write';
 	const ACL_AUTHENTICATED_READ = 'authenticated-read';
 
+	// storage class flags
+	const STORAGE_CLASS_STANDARD = 'STANDARD';
+	const STORAGE_CLASS_RRS = 'REDUCED_REDUNDANCY';
+
+	// server-side encryption flags
+	const SSE_NONE = '';
+	const SSE_AES256 = 'AES256';
+
 	public static $use_ssl = false;
 	public static $verify_peer = true;
 
@@ -336,9 +344,11 @@ class S3 {
 	 * @param constant $acl ACL constant
 	 * @param array $metaHeaders Array of x-amz-meta-* headers
 	 * @param array $requestHeaders Array of request headers or content type as a string
+	 * @param constant $storageClass Storage class constant
+	 * @param constant $serverSideEncryption Server-side encryption
 	 * @return boolean
 	 */
-	public static function putObject($input, $bucket, $uri, $acl = 'public-read', $metaHeaders = array(), $requestHeaders = array())
+	public static function putObject($input, $bucket, $uri, $acl = self::ACL_PUBLIC_READ, $metaHeaders = array(), $requestHeaders = array(), $storageClass = self::STORAGE_CLASS_STANDARD, $serverSideEncryption = self::SSE_NONE)
 	{
 		if ($input === false)
 			return false;
@@ -386,6 +396,12 @@ class S3 {
 			else
 				$input['type'] = 'application/octet-stream';
 		}
+
+		if ($storageClass !== self::STORAGE_CLASS_STANDARD) // Storage class
+			$rest->setAmzHeader('x-amz-storage-class', $storageClass);
+
+		if ($serverSideEncryption !== self::SSE_NONE) // Server-side encryption
+			$rest->setAmzHeader('x-amz-server-side-encryption', $serverSideEncryption);
 
 		// We need to post with Content-Length and Content-Type, MD5 is optional
 		if ($rest->size >= 0 && ($rest->fp !== false || $rest->data !== false))
@@ -511,9 +527,10 @@ class S3 {
 	 * @param constant $acl ACL constant
 	 * @param array $metaHeaders Optional array of x-amz-meta-* headers
 	 * @param array $requestHeaders Optional array of request headers (content type, disposition, etc.)
+	 * @param constant $storageClass Storage class constant
 	 * @return mixed | false
 	 */
-	public static function copyObject($srcBucket, $srcUri, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $requestHeaders = array())
+	public static function copyObject($srcBucket, $srcUri, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $requestHeaders = array(), $storageClass = self::STORAGE_CLASS_STANDARD)
 	{
 		$rest = new S3Request('PUT', $bucket, $uri);
 		$rest->setHeader('Content-Length', 0);
@@ -521,6 +538,8 @@ class S3 {
 			$rest->setHeader($h, $v);
 		foreach ($metaHeaders as $h => $v)
 			$rest->setAmzHeader('x-amz-meta-' . $h, $v);
+		if ($storageClass !== self::STORAGE_CLASS_STANDARD) // Storage class
+			$rest->setAmzHeader('x-amz-storage-class', $storageClass);
 		$rest->setAmzHeader('x-amz-acl', $acl);
 		$rest->setAmzHeader('x-amz-copy-source', sprintf('/%s/%s', $srcBucket, $srcUri));
 		if (sizeof($requestHeaders) > 0 || sizeof($metaHeaders) > 0)
@@ -1236,7 +1255,6 @@ class S3 {
 										pack('H*', sha1((str_pad(self::$__secret_key, 64, chr(0x00)) ^
 														(str_repeat(chr(0x36), 64))) . $string)))));
 	}
-
 }
 
 final class S3Request {
