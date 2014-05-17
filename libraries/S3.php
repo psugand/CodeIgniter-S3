@@ -338,7 +338,7 @@ class S3 {
 	 * @param array $requestHeaders Array of request headers or content type as a string
 	 * @return boolean
 	 */
-	public static function putObject($input, $bucket, $uri, $acl = 'public-read', $metaHeaders = array(), $requestHeaders = array())
+	public static function putObject($input, $bucket, $uri, $acl = 'public-read', $metaHeaders = array(), $requestHeaders = array(), $storageClass = 'STANDARD')
 	{
 		if ($input === false)
 			return false;
@@ -395,6 +395,7 @@ class S3 {
 				$rest->setHeader('Content-MD5', $input['md5sum']);
 
 			$rest->setAmzHeader('x-amz-acl', $acl);
+			$rest->setAmzHeader('x-amz-storage-class', $storageClass); // STANDARD | REDUCED_REDUNDANCY
 			foreach ($metaHeaders as $h => $v)
 				$rest->setAmzHeader('x-amz-meta-' . $h, $v);
 			$rest->getResponse();
