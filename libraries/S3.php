@@ -854,7 +854,7 @@ class S3 {
 	{
 		$expires = time() + $lifetime;
 		$uri = str_replace('%2F', '/', rawurlencode($uri)); // URI should be encoded (thanks Sean O'Dea)
-		return sprintf(($https ? 'https' : 'http') . '://%s/%s?AWSAccessKeyId=%s&amp;Expires=%u&amp;Signature=%s',
+		return sprintf(($https ? 'https' : 'http') . '://%s/%s?AWSAccessKeyId=%s&Expires=%u&Signature=%s',
 				$hostBucket ? $bucket : $bucket . '.s3.amazonaws.com', $uri, self::$__access_key, $expires,
 				urlencode(self::__getHash("GET\n\n\n{$expires}\n/{$bucket}/{$uri}")));
 	}
