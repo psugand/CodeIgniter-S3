@@ -45,3 +45,48 @@ $config['access_key'] = '';
 */
 
 $config['secret_key'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Use Enviroment?
+|--------------------------------------------------------------------------
+|
+| Get Settings from enviroment instead of this file? 
+| Used as best-practice on Heroku
+|
+*/
+
+$config['get_from_enviroment'] = TRUE;
+
+/*
+|--------------------------------------------------------------------------
+| Access Key Name
+|--------------------------------------------------------------------------
+|
+| Name for access key in enviroment
+|
+*/
+$config['access_key_envname'] = 'S3_KEY';
+
+/*
+|--------------------------------------------------------------------------
+| Access Key Name
+|--------------------------------------------------------------------------
+|
+| Name for access key in enviroment
+|
+*/
+$config['secret_key_envname'] = 'S3_SECRET';
+
+/*
+|--------------------------------------------------------------------------
+| If get from enviroment, do so and overwrite fixed vars above
+|--------------------------------------------------------------------------
+|
+*/
+
+if ($config['get_from_enviroment']){
+	$config['access_key'] = getenv($config['access_key_envname']);
+	$config['secret_key'] = getenv($config['secret_key_envname']);
+
+}
