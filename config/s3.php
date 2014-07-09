@@ -56,7 +56,7 @@ $config['secret_key'] = '';
 |
 */
 
-$config['get_from_enviroment'] = TRUE;
+$config['get_from_enviroment'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
