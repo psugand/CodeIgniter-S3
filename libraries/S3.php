@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * $Id: S3.php 47 2009-07-20 01:25:40Z don.schonknecht $
